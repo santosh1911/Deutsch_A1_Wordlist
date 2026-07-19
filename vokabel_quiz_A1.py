@@ -8,16 +8,18 @@ Each word comes with a short example sentence: the English version is
 shown as a hint, together with the German sentence with the target word
 blanked out (_____). The full German sentence appears once you answer.
 
-Buttons:  Check | Show Answer | Prev | Next, plus Mark/Unmark, a
-"Practice: marked only" mode, an Example on/off toggle, a 🔊 pronounce
-button (Google text-to-speech), skip +/-10, and Delete word.  Marks and
-deletions are written back to the .txt file.
+Buttons:  Check | Show Answer | Prev | Next.  Tag the current word as
+Mark, Difficult, or Very difficult, then use the "Practice:" dropdown to
+drill All words / Marked / Difficult / Very difficult.  Plus an Example
+on/off toggle, a 🔊 pronounce button (Google text-to-speech), skip +/-10,
+and Delete word.  All tags and deletions are written back to the .txt file.
 
 This version reads the four-column A1 word-list file
     German  <tab>  English meaning  <tab>  German example  <tab>  English example
 (the file "A1_Wortliste_4Spalten.txt" / "A1_Wortliste_Quiz.txt"), with
-"--- A ---" letter dividers.  A fifth "Markiert" (1/0) column is added
-automatically the first time you mark a word, so your marks are saved.
+optional "--- A ---" letter dividers.  A "Markiert" (1/0) and a
+"Schwierigkeit" (0/1/2) column are added automatically when you tag a
+word, so your marks and difficulty ratings are saved.
 
 It also still reads the older "frequency, German, English, ..." files.
 
@@ -60,10 +62,35 @@ DEFAULT_FILENAMES = (
 
 TRUE_TOKENS = {"1", "*", "x", "true", "yes", "ja", "y"}
 
+# Difficulty tags, stored as a number: 0 = none, 1 = difficult, 2 = very difficult.
+DIFF_CODES = {"none": "0", "difficult": "1", "very": "2"}
+DIFF_FROM_RAW = {
+    "0": "none", "": "none",
+    "1": "difficult", "d": "difficult", "difficult": "difficult",
+    "2": "very", "vd": "very", "very": "very", "very difficult": "very",
+}
+
+
+def parse_level(raw):
+    """Read a stored difficulty value and return 'none' / 'difficult' / 'very'."""
+    return DIFF_FROM_RAW.get(str(raw).strip().lower(), "none")
+
+
+def level_code(level):
+    """Turn 'none'/'difficult'/'very' into the number stored in the file."""
+    return DIFF_CODES.get(level, "0")
+
+
+# Practice filter: which subset of words to drill.
+PRACTICE_ORDER = ["all", "marked", "difficult", "very"]
+PRACTICE_LABELS = {"all": "All words", "marked": "Marked",
+                   "difficult": "Difficult", "very": "Very difficult"}
+LABEL_TO_MODE = {label: mode for mode, label in PRACTICE_LABELS.items()}
+
 # The A1 file's own header/divider text, reused when saving.
 A1_HEADER = ["Deutsches Wort (German)", "Bedeutung (English)",
              "Beispielsatz (German)", "Übersetzung (English)",
-             "Markiert (1/0)"]
+             "Markiert (1/0)", "Schwierigkeit (0/1/2)"]
 LID_HEADER = ["Häufigkeit", "Deutsch", "Englisch",
               "Markiert", "Beispiel", "Beispiel_Englisch"]
 
@@ -199,6 +226,7 @@ def _load_lid(rows):
             continue
         entries.append({"freq": freq, "de": de, "en": en, "marked": marked,
                         "ex_de": _field(row, 4), "ex_en": _field(row, 5),
+                        "level": parse_level(_field(row, 6)),
                         "sec": None})
     return entries, header, "lid", False
 
@@ -227,6 +255,7 @@ def _load_a1(rows):
         entries.append({"de": de, "en": en,
                         "ex_de": _field(row, 2), "ex_en": _field(row, 3),
                         "marked": _field(row, 4).lower() in TRUE_TOKENS,
+                        "level": parse_level(_field(row, 5)),
                         "sec": current_section})
     return entries, header, "a1", has_dividers
 
@@ -260,19 +289,21 @@ def save_vocab(path, entries, header, fmt, use_dividers=True):
     """
     try:
         if fmt == "lid":
-            h = list(header or [])[:6]
-            h += LID_HEADER[len(h):]
+            base_h = LID_HEADER + ["Schwierigkeit (0/1/2)"]
+            h = list(header or [])[:7]
+            h += base_h[len(h):]
             with open(path, "w", encoding="utf-8", newline="") as f:
                 w = csv.writer(f, delimiter="\t", lineterminator="\n")
                 w.writerow(h)
                 for e in entries:
                     w.writerow([e.get("freq", ""), e["de"], e["en"],
                                 "1" if e["marked"] else "0",
-                                e.get("ex_de", ""), e.get("ex_en", "")])
+                                e.get("ex_de", ""), e.get("ex_en", ""),
+                                level_code(e.get("level", "none"))])
             return True
 
         # a1 format
-        h = list(header or [])[:5]
+        h = list(header or [])[:6]
         h += A1_HEADER[len(h):]
         with open(path, "w", encoding="utf-8", newline="") as f:
             w = csv.writer(f, delimiter="\t", lineterminator="\n")
@@ -285,7 +316,8 @@ def save_vocab(path, entries, header, fmt, use_dividers=True):
                         cur = sec
                         w.writerow([f"--- {sec} ---"])
                 w.writerow([e["de"], e["en"], e.get("ex_de", ""),
-                            e.get("ex_en", ""), "1" if e["marked"] else "0"])
+                            e.get("ex_en", ""), "1" if e["marked"] else "0",
+                            level_code(e.get("level", "none"))])
         return True
     except OSError:
         return False
@@ -414,7 +446,7 @@ class VokabelQuiz(tk.Tk):
         self.fmt = fmt          # "a1" or "lid"
         self.use_dividers = use_dividers  # keep A/B/C dividers only if the file had them
         self.entries = entries
-        self.marked_only = False   # practice mode: all words vs. marked only
+        self.practice_mode = "all"  # all / marked / difficult / very
         self.show_examples = True  # show the example sentence as a hint
         self.pos = 0
         self.answered = False   # True once Check or Show Answer has been used
@@ -426,12 +458,20 @@ class VokabelQuiz(tk.Tk):
         self._show_current()
 
     def rebuild_order(self):
-        """Rebuild the practice sequence for the current mode and reset to start."""
-        if self.marked_only:
-            self.order = [i for i, e in enumerate(self.entries) if e["marked"]]
-        else:
-            self.order = list(range(len(self.entries)))
+        """Rebuild the practice sequence for the current filter and reset to start."""
+        self.order = [i for i, e in enumerate(self.entries) if self._in_mode(e)]
         self.pos = 0
+
+    def _in_mode(self, e, mode=None):
+        """True if entry `e` belongs to the given practice filter."""
+        mode = mode or self.practice_mode
+        if mode == "marked":
+            return e["marked"]
+        if mode == "difficult":
+            return e.get("level") == "difficult"
+        if mode == "very":
+            return e.get("level") == "very"
+        return True
 
     # ---- UI construction -------------------------------------------------
     def _build_ui(self):
@@ -496,31 +536,48 @@ class VokabelQuiz(tk.Tk):
                                      justify="center")
         self.feedback_lbl.pack(fill="x", padx=18, pady=(6, 4))
 
-        # Study controls: mark toggle + practice-mode toggle
+        # Study controls — row 0: tag the current word; row 1: pick what to practise
         study = tk.Frame(self, bg="#f4f6f8")
         study.pack(pady=(2, 2))
-        self.mark_btn = tk.Button(study, text="☆  Mark", width=14,
+        self.mark_btn = tk.Button(study, text="☆  Mark", width=11,
                                   command=self.toggle_mark,
                                   bg="#fff4d6", fg="#8a6d00", relief="flat",
                                   font=("Segoe UI", 11, "bold"),
                                   activebackground="#ffe9a8", cursor="hand2")
-        self.mark_btn.grid(row=0, column=0, padx=6, ipady=3)
-        self.mode_btn = tk.Button(study, text="Practice: All words", width=20,
-                                  command=self.toggle_mode,
-                                  bg="#e5e9ee", fg="#1f2d3d", relief="flat",
-                                  font=("Segoe UI", 11), cursor="hand2")
-        self.mode_btn.grid(row=0, column=1, padx=6, ipady=3)
-        self.ex_btn = tk.Button(study, text="💡  Example: on", width=16,
-                                command=self.toggle_examples,
-                                bg="#e5e9ee", fg="#1f2d3d", relief="flat",
-                                font=("Segoe UI", 11), cursor="hand2")
-        self.ex_btn.grid(row=0, column=2, padx=6, ipady=3)
-        self.speak_btn = tk.Button(study, text="🔊  Say", width=10,
+        self.mark_btn.grid(row=0, column=0, padx=5, pady=(0, 4), ipady=3)
+        self.diff_btn = tk.Button(study, text="◆  Difficult", width=12,
+                                  command=lambda: self.set_difficulty("difficult"),
+                                  bg="#ffe3c2", fg="#8a4b00", relief="flat",
+                                  font=("Segoe UI", 11, "bold"),
+                                  activebackground="#ffd39e", cursor="hand2")
+        self.diff_btn.grid(row=0, column=1, padx=5, pady=(0, 4), ipady=3)
+        self.vdiff_btn = tk.Button(study, text="◆◆  Very difficult", width=16,
+                                   command=lambda: self.set_difficulty("very"),
+                                   bg="#ffd0d0", fg="#8a0000", relief="flat",
+                                   font=("Segoe UI", 11, "bold"),
+                                   activebackground="#ffb8b8", cursor="hand2")
+        self.vdiff_btn.grid(row=0, column=2, padx=5, pady=(0, 4), ipady=3)
+        self.speak_btn = tk.Button(study, text="🔊  Say", width=8,
                                    command=self.pronounce,
                                    bg="#e7f0ff", fg="#1f4e9b", relief="flat",
                                    font=("Segoe UI", 11, "bold"),
                                    activebackground="#d6e6ff", cursor="hand2")
-        self.speak_btn.grid(row=0, column=3, padx=6, ipady=3)
+        self.speak_btn.grid(row=0, column=3, padx=5, pady=(0, 4), ipady=3)
+
+        tk.Label(study, text="Practice:", bg="#f4f6f8", fg="#555",
+                 font=("Segoe UI", 11)).grid(row=1, column=0, sticky="e", padx=(0, 4))
+        self.mode_var = tk.StringVar(value=PRACTICE_LABELS["all"])
+        self.mode_combo = ttk.Combobox(
+            study, textvariable=self.mode_var, state="readonly", width=15,
+            values=[PRACTICE_LABELS[m] for m in PRACTICE_ORDER],
+            font=("Segoe UI", 11))
+        self.mode_combo.grid(row=1, column=1, padx=5, pady=(2, 0), sticky="w")
+        self.mode_combo.bind("<<ComboboxSelected>>", self.on_mode_select)
+        self.ex_btn = tk.Button(study, text="💡  Example: on", width=16,
+                                command=self.toggle_examples,
+                                bg="#e5e9ee", fg="#1f2d3d", relief="flat",
+                                font=("Segoe UI", 11), cursor="hand2")
+        self.ex_btn.grid(row=1, column=2, columnspan=2, padx=5, pady=(2, 0), ipady=2)
 
         # Buttons
         btns = tk.Frame(self, bg="#f4f6f8")
@@ -576,6 +633,7 @@ class VokabelQuiz(tk.Tk):
         self.bind("<Next>", lambda e: self.jump(10))     # PageDown
         self.bind("<Prior>", lambda e: self.jump(-10))   # PageUp
         self.bind("<Control-m>", lambda e: self.toggle_mark())
+        self.bind("<Control-d>", lambda e: self.set_difficulty("difficult"))
         self.bind("<Control-e>", lambda e: self.toggle_examples())
         self.bind("<Control-s>", lambda e: self.pronounce())
 
@@ -603,7 +661,7 @@ class VokabelQuiz(tk.Tk):
         self.skip10_btn.config(
             state="normal" if self.pos < len(self.order) - 1 else "disabled")
         self._update_example()
-        self._update_mark_ui()
+        self._update_tag_ui()
         self._update_score()
 
     # ---- Example sentence ------------------------------------------------
@@ -734,7 +792,7 @@ class VokabelQuiz(tk.Tk):
             return False
         return save_vocab(self.path, self.entries, self.header, self.fmt, self.use_dividers)
 
-    # ---- Mark / practice-mode --------------------------------------------
+    # ---- Mark / difficulty / practice-filter -----------------------------
     def toggle_mark(self):
         """Mark or unmark the current word and persist it to the file."""
         if not self.order:
@@ -744,40 +802,65 @@ class VokabelQuiz(tk.Tk):
         if self.path and not self.save_file():
             item["marked"] = not item["marked"]   # revert on write failure
             messagebox.showwarning(
-                "Not saved", "Couldn't write the file — the mark was not saved."
+                "Not saved", "Couldn't write the file — the change was not saved."
             )
             return
-        self._update_mark_ui()
+        self._update_tag_ui()
 
-    def _update_mark_ui(self):
-        """Sync the star indicator and the Mark button label to the word."""
-        marked = bool(self.order) and self._current()["marked"]
-        self.mark_lbl.config(text="★  marked" if marked else "")
+    def set_difficulty(self, target):
+        """Tag the current word 'difficult' or 'very' (click the same one to clear)."""
+        if not self.order:
+            return
+        item = self._current()
+        old = item.get("level", "none")
+        item["level"] = "none" if old == target else target
+        if self.path and not self.save_file():
+            item["level"] = old                   # revert on write failure
+            messagebox.showwarning(
+                "Not saved", "Couldn't write the file — the change was not saved."
+            )
+            return
+        self._update_tag_ui()
+
+    def _update_tag_ui(self):
+        """Sync the indicator line and the tag buttons to the current word."""
+        if not self.order:
+            self.mark_lbl.config(text="")
+            return
+        item = self._current()
+        marked = item["marked"]
+        level = item.get("level", "none")
+
+        parts = []
+        if marked:
+            parts.append("★ marked")
+        if level == "difficult":
+            parts.append("◆ difficult")
+        elif level == "very":
+            parts.append("◆◆ very difficult")
+        self.mark_lbl.config(text="     ".join(parts))
+
         self.mark_btn.config(text="★  Unmark" if marked else "☆  Mark")
+        self.diff_btn.config(relief="sunken" if level == "difficult" else "flat")
+        self.vdiff_btn.config(relief="sunken" if level == "very" else "flat")
 
-    def toggle_mode(self):
-        """Switch between practising all words and only the marked ones."""
-        if not self.marked_only:
-            if not any(e["marked"] for e in self.entries):
-                messagebox.showinfo(
-                    "No marked words",
-                    "You haven't marked any words yet.\n"
-                    "Use “Mark” (or Ctrl+M) on words first."
-                )
-                return
-            self.marked_only = True
-        else:
-            self.marked_only = False
+    def on_mode_select(self, event=None):
+        """The practice dropdown changed — rebuild the set of words to drill."""
+        mode = LABEL_TO_MODE.get(self.mode_var.get(), "all")
+        if mode == self.practice_mode:
+            return
+        if mode != "all" and not any(self._in_mode(e, mode) for e in self.entries):
+            messagebox.showinfo(
+                "Nothing to practise yet",
+                f"You haven't tagged any words as “{PRACTICE_LABELS[mode]}” yet.\n"
+                "Tag some words first, then choose this again."
+            )
+            self.mode_var.set(PRACTICE_LABELS[self.practice_mode])   # revert display
+            return
+        self.practice_mode = mode
         self.rebuild_order()
         self.correct = self.attempted = 0
-        self._update_mode_ui()
         self._show_current()
-
-    def _update_mode_ui(self):
-        self.mode_btn.config(
-            text="Practice: Marked only" if self.marked_only
-            else "Practice: All words"
-        )
 
     # ---- Delete ----------------------------------------------------------
     def delete_word(self):
@@ -810,14 +893,14 @@ class VokabelQuiz(tk.Tk):
             return
 
         if not self.order:
-            if self.entries and self.marked_only:
+            if self.entries and self.practice_mode != "all":
                 messagebox.showinfo(
-                    "No marked words left",
-                    "That was the last marked word. Switching to all words."
+                    "Practice set empty",
+                    "That was the last word in this set. Switching to all words."
                 )
-                self.marked_only = False
+                self.practice_mode = "all"
+                self.mode_var.set(PRACTICE_LABELS["all"])
                 self.rebuild_order()
-                self._update_mode_ui()
                 self._show_current()
             else:
                 messagebox.showinfo("Empty", "That was the last word. Closing.")
