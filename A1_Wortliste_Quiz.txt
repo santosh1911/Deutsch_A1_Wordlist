@@ -1,5 +1,5 @@
 Deutsches Wort (German)	Bedeutung (English)	Beispielsatz (German)	Übersetzung (English)	Markiert (1/0)
-dürfen	to be allowed to / may	Sie dürfen hier nicht rauchen.	You must not smoke here.	1
+dürfen	 may	Sie dürfen hier nicht rauchen.	You must not smoke here.	1
 alt	old	Wie alt sind Sie?	How old are you?	0
 das Hobby	hobby	Meine Hobbys sind Wandern und Schwimmen.	My hobbies are hiking and swimming.	1
 die Party	party	Heute Abend machen wir eine Party.	Tonight we're having a party.	0

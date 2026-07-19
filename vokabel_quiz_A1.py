@@ -9,8 +9,9 @@ shown as a hint, together with the German sentence with the target word
 blanked out (_____). The full German sentence appears once you answer.
 
 Buttons:  Check | Show Answer | Prev | Next, plus Mark/Unmark, a
-"Practice: marked only" mode, an Example on/off toggle, skip +/-10, and
-Delete word.  Marks and deletions are written back to the .txt file.
+"Practice: marked only" mode, an Example on/off toggle, a 🔊 pronounce
+button (Google text-to-speech), skip +/-10, and Delete word.  Marks and
+deletions are written back to the .txt file.
 
 This version reads the four-column A1 word-list file
     German  <tab>  English meaning  <tab>  German example  <tab>  English example
@@ -27,6 +28,12 @@ Requirements: just Python 3 with Tkinter (bundled with the standard
 python.org installers on Windows/macOS). On Debian/Ubuntu Linux you may
 need:  sudo apt install python3-tk
 
+The 🔊 pronounce button needs an internet connection. It works best with
+the small "gTTS" package (pip install gTTS); without it, the app falls
+back to calling Google's TTS voice directly. Audio is played with a media
+player already on your system (winmm on Windows, afplay on macOS, or
+mpg123/ffplay/mpv on Linux), so no extra audio library is required.
+
 The app looks for the vocabulary file next to this script (or in the
 current folder). If it can't find one, a file-open dialog appears so you
 can point to any tab-separated word file.
@@ -35,6 +42,12 @@ can point to any tab-separated word file.
 import os
 import re
 import csv
+import hashlib
+import platform
+import shutil
+import subprocess
+import tempfile
+import threading
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 
@@ -279,6 +292,113 @@ def save_vocab(path, entries, header, fmt, use_dividers=True):
 
 
 # --------------------------------------------------------------------------
+# Pronunciation (Google Translate text-to-speech)
+# --------------------------------------------------------------------------
+# German audio is fetched from Google's free Translate TTS voice and cached
+# as small MP3 files, so each word is only downloaded once. Playback uses a
+# player already on your system, so no extra audio library is required:
+#   Windows -> the built-in Media Control Interface (winmm)
+#   macOS   -> the built-in "afplay" command
+#   Linux   -> mpg123 / ffplay / mpv / cvlc, whichever is installed
+# Fetching needs internet; the "gtts" package is used if installed
+# (pip install gTTS), otherwise the endpoint is called directly.
+CACHE_DIR = os.path.join(tempfile.gettempdir(), "vokabel_tts")
+_AUDIO_LOCK = threading.Lock()
+
+
+def _fetch_tts_mp3(text, lang="de"):
+    """Return a path to an MP3 of `text` spoken in `lang`, or None on failure."""
+    if not text.strip():
+        return None
+    key = hashlib.md5(f"{lang}:{text}".encode("utf-8")).hexdigest()
+    path = os.path.join(CACHE_DIR, key + ".mp3")
+    if os.path.isfile(path) and os.path.getsize(path) > 0:
+        return path                       # already downloaded before
+    try:
+        os.makedirs(CACHE_DIR, exist_ok=True)
+    except OSError:
+        return None
+
+    # Preferred: the gTTS package (handles headers, chunking, escaping).
+    try:
+        from gtts import gTTS
+        gTTS(text=text, lang=lang).save(path)
+        if os.path.getsize(path) > 0:
+            return path
+    except Exception:
+        pass
+
+    # Fallback: call the free Google Translate TTS endpoint directly.
+    try:
+        import urllib.parse
+        import urllib.request
+        url = ("https://translate.google.com/translate_tts?ie=UTF-8"
+               f"&client=tw-ob&tl={lang}&q=" + urllib.parse.quote(text))
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        data = urllib.request.urlopen(req, timeout=8).read()
+        with open(path, "wb") as f:
+            f.write(data)
+        if os.path.getsize(path) > 0:
+            return path
+    except Exception:
+        pass
+
+    # Clean up an empty/partial file so we retry cleanly next time.
+    try:
+        if os.path.isfile(path) and os.path.getsize(path) == 0:
+            os.remove(path)
+    except OSError:
+        pass
+    return None
+
+
+def _play_audio(path):
+    """Play an MP3 file using whatever player the OS provides. Returns True/False."""
+    system = platform.system()
+    try:
+        if system == "Windows":
+            import ctypes
+            alias = "vokabel_snd"
+            mci = ctypes.windll.winmm.mciSendStringW
+            mci(f"close {alias}", None, 0, None)             # close a leftover, if any
+            if mci(f'open "{path}" type mpegvideo alias {alias}', None, 0, None) != 0:
+                # some systems prefer no explicit type
+                if mci(f'open "{path}" alias {alias}', None, 0, None) != 0:
+                    return False
+            mci(f"play {alias} wait", None, 0, None)
+            mci(f"close {alias}", None, 0, None)
+            return True
+        if system == "Darwin":
+            if shutil.which("afplay"):
+                subprocess.run(["afplay", path], check=False)
+                return True
+            return False
+        # Linux and other Unixes: try common command-line players.
+        players = (
+            ["mpg123", "-q"],
+            ["ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet"],
+            ["mpv", "--no-video", "--really-quiet"],
+            ["cvlc", "--play-and-exit", "--quiet"],
+        )
+        for player in players:
+            if shutil.which(player[0]):
+                subprocess.run(player + [path], check=False)
+                return True
+        return False
+    except Exception:
+        return False
+
+
+def speak(text, lang="de"):
+    """Fetch (or reuse) and play the pronunciation of `text`. Returns True/False."""
+    with _AUDIO_LOCK:
+        path = _fetch_tts_mp3(text, lang)
+        if not path:
+            return False
+        return _play_audio(path)
+
+
+# --------------------------------------------------------------------------
 # The quiz application
 # --------------------------------------------------------------------------
 class VokabelQuiz(tk.Tk):
@@ -395,6 +515,12 @@ class VokabelQuiz(tk.Tk):
                                 bg="#e5e9ee", fg="#1f2d3d", relief="flat",
                                 font=("Segoe UI", 11), cursor="hand2")
         self.ex_btn.grid(row=0, column=2, padx=6, ipady=3)
+        self.speak_btn = tk.Button(study, text="🔊  Say", width=10,
+                                   command=self.pronounce,
+                                   bg="#e7f0ff", fg="#1f4e9b", relief="flat",
+                                   font=("Segoe UI", 11, "bold"),
+                                   activebackground="#d6e6ff", cursor="hand2")
+        self.speak_btn.grid(row=0, column=3, padx=6, ipady=3)
 
         # Buttons
         btns = tk.Frame(self, bg="#f4f6f8")
@@ -451,6 +577,7 @@ class VokabelQuiz(tk.Tk):
         self.bind("<Prior>", lambda e: self.jump(-10))   # PageUp
         self.bind("<Control-m>", lambda e: self.toggle_mark())
         self.bind("<Control-e>", lambda e: self.toggle_examples())
+        self.bind("<Control-s>", lambda e: self.pronounce())
 
     # ---- Quiz logic ------------------------------------------------------
     def _current(self):
@@ -513,6 +640,30 @@ class VokabelQuiz(tk.Tk):
             text="💡  Example: on" if self.show_examples else "💡  Example: off"
         )
         self._update_example()
+
+    def pronounce(self):
+        """Speak the current German word aloud (fetched from Google TTS)."""
+        if not self.order:
+            return
+        text = self._current()["de"]
+        self.speak_btn.config(text="🔊  …", state="disabled")
+
+        def worker():
+            ok = speak(text)
+
+            def done():
+                self.speak_btn.config(text="🔊  Say", state="normal")
+                if not ok:
+                    self.feedback_lbl.config(
+                        text="Couldn't play audio — check your internet "
+                             "connection (and try: pip install gTTS).",
+                        fg="#d64545")
+            try:
+                self.after(0, done)
+            except Exception:
+                pass
+
+        threading.Thread(target=worker, daemon=True).start()
 
     def _update_score(self):
         self.score_lbl.config(
