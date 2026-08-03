@@ -10,9 +10,11 @@ blanked out (_____). The full German sentence appears once you answer.
 
 Buttons:  Check | Show Answer | Prev | Next.  Tag the current word as
 Mark, Difficult, or Very difficult, then use the "Practice:" dropdown to
-drill All words / Marked / Difficult / Very difficult.  Plus an Example
-on/off toggle, a 🔊 pronounce button (Google text-to-speech), skip +/-10,
-and Delete word.  All tags and deletions are written back to the .txt file.
+drill All words / Marked / Difficult / Very difficult.  Plus a direction
+toggle (English→German, or German→English where you type the English),
+an Example on/off toggle, a 🔊 pronounce button (Google text-to-speech),
+skip +/-10, and Delete word.  All tags and deletions are written back to
+the .txt file.
 
 This version reads the four-column A1 word-list file
     German  <tab>  English meaning  <tab>  German example  <tab>  English example
@@ -151,6 +153,41 @@ def answer_matches(user, correct_de):
     stripped = _strip_leading_article(correct_de)
     if stripped != correct_de and nu == normalize(stripped):
         return True
+    return False
+
+
+def _clean_english(text):
+    """
+    Tidy an English answer for lenient comparison: lowercase, drop "(...)"
+    notes and punctuation, collapse spaces, and strip a leading article
+    (to / the / a / an) so 'to leave' == 'leave'.
+    """
+    text = text.strip().lower()
+    text = re.sub(r"\(.*?\)", " ", text)          # drop parenthetical notes
+    text = re.sub(r"[.,;:!?\"'’]", " ", text)     # drop punctuation
+    text = " ".join(text.split())
+    for art in ("to ", "the ", "a ", "an "):
+        if text.startswith(art):
+            text = text[len(art):]
+            break
+    return text.strip()
+
+
+def english_matches(user, correct_en):
+    """
+    Accept the English answer if it matches the stored meaning. The meaning
+    often lists several senses ("to leave, to depart" or "exit / way out");
+    any single one is accepted, with or without a leading to/the/a/an and
+    ignoring "(...)" notes.  Used when the quiz runs German -> English.
+    """
+    nu = _clean_english(user)
+    if not nu:
+        return False
+    if nu == _clean_english(correct_en):
+        return True
+    for part in re.split(r"[,;/]| or ", correct_en):
+        if part.strip() and nu == _clean_english(part):
+            return True
     return False
 
 
@@ -437,8 +474,8 @@ class VokabelQuiz(tk.Tk):
     def __init__(self, entries, path=None, header=None, fmt="a1", use_dividers=True):
         super().__init__()
         self.title("Vokabel-Quiz — Goethe A1 / Start Deutsch 1")
-        self.geometry("660x580")
-        self.minsize(600, 540)
+        self.geometry("660x620")
+        self.minsize(600, 580)
         self.configure(bg="#f4f6f8")
 
         self.path = path        # source .txt file (needed for Delete / Mark)
@@ -448,6 +485,8 @@ class VokabelQuiz(tk.Tk):
         self.entries = entries
         self.practice_mode = "all"  # all / marked / difficult / very
         self.show_examples = True  # show the example sentence as a hint
+        self.reverse = False    # False: shown English, type German
+        #                          True:  shown German, type English
         self.pos = 0
         self.answered = False   # True once Check or Show Answer has been used
         self.correct = 0
@@ -493,8 +532,9 @@ class VokabelQuiz(tk.Tk):
         card = tk.Frame(self, bg="white", bd=0, highlightthickness=1,
                         highlightbackground="#d9dee3")
         card.pack(fill="x", padx=18, pady=(4, 10))
-        tk.Label(card, text="Translate into German:", bg="white", fg="#8a949e",
-                 font=("Segoe UI", 10)).pack(anchor="w", padx=16, pady=(12, 0))
+        self.dir_lbl = tk.Label(card, text="Translate into German:", bg="white",
+                                fg="#8a949e", font=("Segoe UI", 10))
+        self.dir_lbl.pack(anchor="w", padx=16, pady=(12, 0))
         self.prompt_lbl = tk.Label(
             card, text="", bg="white", fg="#1f2d3d",
             font=("Segoe UI", 20, "bold"), wraplength=540, justify="left"
@@ -579,6 +619,15 @@ class VokabelQuiz(tk.Tk):
                                 font=("Segoe UI", 11), cursor="hand2")
         self.ex_btn.grid(row=1, column=2, columnspan=2, padx=5, pady=(2, 0), ipady=2)
 
+        # Row 2: swap which language is shown and which one you type.
+        self.dir_btn = tk.Button(study, text="⇄  Direction: EN → DE",
+                                 command=self.toggle_direction,
+                                 bg="#e0e7ff", fg="#3730a3", relief="flat",
+                                 font=("Segoe UI", 11, "bold"),
+                                 activebackground="#c7d2fe", cursor="hand2")
+        self.dir_btn.grid(row=2, column=0, columnspan=4, padx=5,
+                          pady=(8, 0), ipady=3)
+
         # Buttons
         btns = tk.Frame(self, bg="#f4f6f8")
         btns.pack(pady=8)
@@ -636,6 +685,7 @@ class VokabelQuiz(tk.Tk):
         self.bind("<Control-d>", lambda e: self.set_difficulty("difficult"))
         self.bind("<Control-e>", lambda e: self.toggle_examples())
         self.bind("<Control-s>", lambda e: self.pronounce())
+        self.bind("<Control-r>", lambda e: self.toggle_direction())
 
     # ---- Quiz logic ------------------------------------------------------
     def _current(self):
@@ -647,7 +697,7 @@ class VokabelQuiz(tk.Tk):
         self.answer_var.set("")
         self.entry.config(state="normal")
         self.entry.focus_set()
-        self.prompt_lbl.config(text=item["en"])
+        self.prompt_lbl.config(text=item["de"] if self.reverse else item["en"])
         if self.fmt == "lid" and item.get("freq"):
             self.freq_lbl.config(text=f"frequency in test catalogue: {item['freq']}×")
         else:
@@ -676,9 +726,14 @@ class VokabelQuiz(tk.Tk):
     # ---- Example sentence ------------------------------------------------
     def _update_example(self):
         """
-        Show the example for the current word: before answering, the German
-        sentence has the target word blanked out (and only if hints are on);
-        after answering, the full sentence is revealed.
+        Show the example for the current word.
+
+        EN -> DE: the English gloss is shown and the German sentence has the
+        target word blanked out (only while hints are on).
+        DE -> EN: the German sentence is shown in full (its word is already
+        the prompt) and the English sentence is blanked/hidden so it doesn't
+        give the answer away.
+        After answering, both sentences are always revealed in full.
         """
         item = self._current()
         ex_de, ex_en = item.get("ex_de", ""), item.get("ex_en", "")
@@ -695,6 +750,18 @@ class VokabelQuiz(tk.Tk):
             self.ex_en_lbl.config(text="")
             self.ex_de_lbl.config(text="(example hidden — Ctrl+E)", fg="#c3ccd4")
             return
+
+        if self.reverse:
+            # German is the prompt: show the German sentence in full as
+            # context, and the English sentence with the answer blanked when
+            # that can be done cleanly (otherwise keep it hidden).
+            masked_en = mask_word(ex_en, item["en"]) if ex_en else ""
+            self.ex_en_lbl.config(text=masked_en if "_____" in masked_en else "")
+            self.ex_de_lbl.config(text=ex_de or "— no German example —",
+                                  fg="#5b6570" if ex_de else "#c3ccd4")
+            return
+
+        # Forward (EN -> DE): English gloss on top, German word blanked below.
         hint = mask_word(ex_de, item["de"])
         self.ex_en_lbl.config(text=ex_en)
         self.ex_de_lbl.config(text=hint or "(hint hidden for this word)",
@@ -707,6 +774,18 @@ class VokabelQuiz(tk.Tk):
             text="💡  Example: on" if self.show_examples else "💡  Example: off"
         )
         self._update_example()
+
+    def toggle_direction(self):
+        """Swap between EN -> DE (type German) and DE -> EN (type English)."""
+        self.reverse = not self.reverse
+        if self.reverse:
+            self.dir_lbl.config(text="Translate into English:")
+            self.dir_btn.config(text="⇄  Direction: DE → EN")
+        else:
+            self.dir_lbl.config(text="Translate into German:")
+            self.dir_btn.config(text="⇄  Direction: EN → DE")
+        # Re-ask the current word fresh in the new direction.
+        self._show_current()
 
     def pronounce(self):
         """Speak the current German word aloud (fetched from Google TTS)."""
@@ -747,16 +826,19 @@ class VokabelQuiz(tk.Tk):
             self.feedback_lbl.config(text="Type your answer first, "
                                           "or press “Show Answer”.", fg="#8a949e")
             return
-        correct_de = self._current()["de"]
+        item = self._current()
+        target = item["en"] if self.reverse else item["de"]
+        ok = (english_matches(user, item["en"]) if self.reverse
+              else answer_matches(user, item["de"]))
         self.attempted += 1
         self.answered = True
-        if answer_matches(user, correct_de):
+        if ok:
             self.correct += 1
-            self.feedback_lbl.config(text=f"✓  Correct!  →  {correct_de}",
+            self.feedback_lbl.config(text=f"✓  Correct!  →  {target}",
                                      fg="#1f9d55")
         else:
             self.feedback_lbl.config(
-                text=f"✗  Not quite.  Correct answer:  {correct_de}",
+                text=f"✗  Not quite.  Correct answer:  {target}",
                 fg="#d64545"
             )
         self.entry.config(state="disabled")
@@ -769,8 +851,9 @@ class VokabelQuiz(tk.Tk):
             self.attempted += 1
             self.answered = True
             self._update_score()
-        correct_de = self._current()["de"]
-        self.feedback_lbl.config(text=f"Answer:  {correct_de}", fg="#3b82f6")
+        item = self._current()
+        target = item["en"] if self.reverse else item["de"]
+        self.feedback_lbl.config(text=f"Answer:  {target}", fg="#3b82f6")
         self.entry.config(state="disabled")
         self._update_example()
 

@@ -25,11 +25,11 @@ sollen	should / to be supposed to	Soll ich kommen?	Should I come?	0	0
 leise	quiet(ly)	Seid leise. Die anderen schlafen schon.	Be quiet. The others are already sleeping.	1	1
 tanzen	to dance	Tanzen Sie gern?	Do you like dancing?	0	0
 das Obst	fruit	Im Sommer ist das Obst billig.	In summer fruit is cheap.	0	0
-draußen	outside	Wollen wir draußen sitzen?	Shall we sit outside?	1	2
+draußen	outside	Wollen wir draußen sitzen?	Shall we sit outside?	1	0
 die Firma	company / firm	Er arbeitet jetzt bei einer anderen Firma.	He now works at a different company.	0	0
 warten	to wait	Können Sie ein paar Minuten warten?	Can you wait a few minutes?	0	0
-schlecht	bad	Mir ist schlecht!	I feel sick!	1	1
-das Gepäck	luggage	Wollen Sie Ihr Gepäck mitnehmen?	Do you want to take your luggage?	1	1
+schlecht	bad	Mir ist schlecht!	I feel sick!	1	0
+das Gepäck	luggage	Wollen Sie Ihr Gepäck mitnehmen?	Do you want to take your luggage?	1	0
 (sich) anziehen	to get dressed / put on	Ich muss mich noch anziehen.	I still have to get dressed.	1	1
 buchstabieren	to spell	Bitte buchstabieren Sie Ihren Namen.	Please spell your name.	0	0
 Rad fahren	to ride a bike	Das Kind kann schon Rad fahren.	The child can already ride a bike.	0	0
@@ -39,7 +39,7 @@ das Ergebnis	result	Das Ergebnis des Tests bekommen Sie in zwei Wochen.	You'll g
 die Tasche	bag / pocket	Ich habe die Schlüssel in der Tasche.	I have the keys in my bag.	0	0
 lange	(for) a long time	Wie lange fährt der Zug nach Berlin?	How long does the train to Berlin take?	0	0
 tschüss	bye	"Junge Leute sagen meistens ""tschüss!""."	"Young people usually say ""bye!""."	0	0
-bleiben	to stay / remain	Ich bleibe heute zu Hause.	I'm staying home today.	0	0
+bleiben	to stay / remain	Ich bleibe heute zu Hause.	I'm staying home today.	0	1
 das Ei	egg	Möchtest du ein Ei zum Frühstück?	Would you like an egg for breakfast?	0	0
 (sich) duschen	to shower	Ich bade nicht so gern, ich dusche lieber.	I don't like baths, I prefer to shower.	0	0
 können	can / to be able to	Ich kann Deutsch und Russisch.	I can speak German and Russian.	1	0
@@ -65,7 +65,7 @@ der Student	student	Ich bin Studentin.	I'm a student.	0	0
 klein	small	Eltville ist eine kleine Stadt am Rhein.	Eltville is a small town on the Rhine.	0	0
 die Banane	banana	Drei Bananen, bitte!	Three bananas, please!	0	0
 ausfüllen	to fill in / out	Füllen Sie bitte dieses Formular aus.	Please fill in this form.	1	0
-gleich	same / immediately	Ich komme gleich.	I'm coming right away.	0	0
+gleich	same / immediately	Ich komme gleich.	I'm coming right away.	0	1
 der Absender	sender (of a letter)	Da ist ein Brief für dich ohne Absender.	There's a letter for you with no sender.	1	0
 falsch	wrong / false	Das ist falsch.	That's wrong.	0	0
 die Pause	break / pause	Von 12.00 bis 12.30 Uhr haben wir Mittagspause.	From 12:00 to 12:30 we have a lunch break.	0	0
@@ -75,11 +75,11 @@ die Mutter	mother	Frau Berghäuser ist die Mutter von Michaela.	Mrs Berghäuser 
 einsteigen	to get in / board	Schnell, steig ein, der Zug fährt gleich.	Quick, get in, the train leaves in a moment.	0	0
 der Arbeitsplatz	workplace / job	An meinem Arbeitsplatz fehlt ein Drucker.	At my workplace a printer is missing.	1	0
 schlafen	to sleep	Ich schlafe meistens acht Stunden.	I usually sleep eight hours.	0	0
-der Gruß	greeting	Viele Grüße an Ihre Frau.	Best wishes to your wife.	1	0
+der Gruß	greeting	Viele Grüße an Ihre Frau.	Best wishes to your wife.	1	1
 entschuldigen	to excuse	Entschuldigen Sie bitte!	Excuse me, please!	1	1
 die Kleidung	clothing	Wo finde ich Kleidung?	Where do I find clothing?	1	0
 fernsehen	to watch TV	Wollen wir heute Abend mal fernsehen?	Shall we watch TV tonight?	0	0
-der Bahnsteig	platform	Auf welchem Bahnsteig fährt der Zug?	Which platform does the train leave from?	1	1
+der Bahnsteig	platform	Auf welchem Bahnsteig fährt der Zug?	Which platform does the train leave from?	1	0
 der Verein	club / association	Es gibt einen neuen Sportverein in der Stadt.	There's a new sports club in town.	1	0
 die Oma	grandma	Meine Oma ist schon tot.	My grandma has already died.	0	0
 die Hausfrau / der Hausmann	housewife / house-husband	Die Hausfrau wäscht, kocht und kauft ein.	The housewife washes, cooks and shops.	0	0
@@ -93,7 +93,7 @@ der Schuh	shoe	Zieh die Schuhe aus!	Take off your shoes!	0	0
 vermieten	to rent out / let	Die Wohnung ist schon vermietet.	The flat is already rented out.	1	0
 lieben	to love	Ich liebe dich!	I love you!	0	0
 geöffnet	open	Der Laden ist samstags bis 16 Uhr geöffnet.	The shop is open on Saturdays until 4 pm.	1	1
-der Schlüssel	key	Ich gebe Ihnen den Zimmerschlüssel.	I'll give you the room key.	0	0
+der Schlüssel	key	Ich gebe Ihnen den Zimmerschlüssel.	I'll give you the room key.	0	1
 der Fehler	mistake / error	Diesen Fehler mache ich immer.	I always make this mistake.	1	0
 hoch	high / tall	Der Mount Everest ist 8.880 Meter hoch.	Mount Everest is 8,880 metres high.	1	0
 das Bein	leg	Mein rechtes Bein tut weh.	My right leg hurts.	1	0
@@ -102,14 +102,14 @@ bitten	Please	Darf ich Sie um etwas bitten?	May I ask you for something?	0	0
 der Preis	price / prize	Die Preise sind hoch.	The prices are high.	1	0
 kriegen	to get (colloquial)	Ich kriege 15 Euro in der Stunde.	I get 15 euros an hour.	1	1
 was für ein	what kind of	Was für eine Farbe möchten Sie?	What colour would you like?	1	0
-das Flugzeug	aeroplane	Das Flugzeug aus Berlin kommt heute später an.	The plane from Berlin arrives later today.	1	1
+das Flugzeug	aeroplane	Das Flugzeug aus Berlin kommt heute später an.	The plane from Berlin arrives later today.	1	0
 männlich	male	"Kreuzen Sie an: ""weiblich"" oder ""männlich""."	"Tick: ""female"" or ""male""."	1	1
 geboren	born	Ich bin in Zagreb geboren.	I was born in Zagreb.	1	0
 an sein	to be on (switched on)	Heute Nacht war das Licht an.	Last night the light was on.	1	0
 die Straßenbahn	tram	Wo fährt die Straßenbahn ab?	Where does the tram leave from?	1	0
 der Hunger	hunger	Ich habe Hunger! Wann ist das Essen fertig?	I'm hungry! When is the food ready?	1	0
 gehen	to go / walk	Wie geht's?	How are you?	1	0
-besuchen	to visit	Darf ich dich besuchen?	May I visit you?	1	0
+besuchen	to visit	Darf ich dich besuchen?	May I visit you?	1	1
 das Wasser	water	Ein Glas Wasser, bitte.	A glass of water, please.	0	0
 der Herd	stove / cooker	In der neuen Küche fehlt noch der Herd.	The stove is still missing in the new kitchen.	1	0
 Sie	you (formal)	Wie heißen Sie, bitte?	What is your name, please?	1	0
@@ -128,14 +128,14 @@ die Zeitung	newspaper	Ich lese gern Zeitung.	I like reading the newspaper.	1	0
 der Ausflug	excursion / trip	Morgen machen wir einen Ausflug nach Heidelberg.	Tomorrow we're going on a trip to Heidelberg.	1	1
 der Regen	rain	Bei diesem Regen gehe ich nicht raus.	In this rain I'm not going out.	1	0
 dauern	to last / take (time)	Wie lange dauert der Film?	How long does the film last?	1	1
-der Bleistift	pencil	Hast du einen Bleistift?	Do you have a pencil?	1	0
-bekannt	well-known / famous	Picasso ist sehr bekannt.	Picasso is very famous.	1	0
+der Bleistift	pencil	Hast du einen Bleistift?	Do you have a pencil?	1	1
+bekannt	well-known / famous	Picasso ist sehr bekannt.	Picasso is very famous.	1	1
 das Hotel	hotel	Im Urlaub sind wir in einem Hotel am Meer.	On holiday we stay in a hotel by the sea.	1	0
 das Gewicht	weight	"Bei ""Gewicht"" schreibst du: 62 Kilo."	"For ""weight"" you write: 62 kilos."	1	0
-die Anrede	form of address / salutation	Schreiben Sie auch eine Anrede und einen Gruß.	Also write a salutation and a greeting.	1	0
+die Anrede	form of address / salutation	Schreiben Sie auch eine Anrede und einen Gruß.	Also write a salutation and a greeting.	1	1
 wunderbar	wonderful	Das Essen schmeckt wunderbar.	The food tastes wonderful.	1	0
 ander-	other	Nein, ich möchte die andere.	No, I'd like the other one.	1	0
-zu	to / too / closed	Der Bus fährt zum Bahnhof.	The bus goes to the station.	1	0
+zu	to / too / closed	Der Bus fährt zum Bahnhof.	The bus goes to the station.	1	1
 das Buch	book	Gute Bücher sind oft sehr teuer.	Good books are often very expensive.	1	0
 die Autobahn	motorway / highway	Wo geht's hier bitte zur Autobahn?	How do I get to the motorway from here, please?	0	0
 antworten	to answer	Er antwortet nicht.	He doesn't answer.	1	0
@@ -148,26 +148,26 @@ die Kartoffel	potato	Für Pommes frites braucht man Kartoffeln.	For chips you ne
 das Foto	photo	Darf ich ein Foto machen?	May I take a photo?	1	0
 an	at / on / to	Wir treffen uns am Bahnhof.	We'll meet at the station.	1	0
 die Halbpension	half board	Möchten Sie Vollpension oder Halbpension?	Would you like full board or half board?	1	0
-anfangen	to begin / start	Der Unterricht fängt gleich an.	The class starts soon.	1	0
+anfangen	to begin / start	Der Unterricht fängt gleich an.	The class starts soon.	1	1
 das Glas	glass	Bitte noch ein Glas Wein!	Another glass of wine, please!	1	0
 die Halle	hall	Wir treffen uns in Halle B.	We'll meet in hall B.	1	0
-nach	to / after / past	Ich fliege nach München.	I'm flying to Munich.	1	0
+nach	to / after / past	Ich fliege nach München.	I'm flying to Munich.	1	1
 der Teil	part	Lies bitte auch den zweiten Teil.	Please also read the second part.	1	0
 wie	how / like / as	Wie heißt du?	What's your name?	1	0
-erzählen	to tell / narrate	Wir müssen euch etwas erzählen!	We have to tell you something!	1	0
+erzählen	to tell / narrate	Wir müssen euch etwas erzählen!	We have to tell you something!	1	1
 bekommen	to get / receive	Haben Sie meinen Brief bekommen?	Did you get my letter?	1	0
-die Auskunft	information	Können Sie mir eine Auskunft geben?	Can you give me some information?	1	0
+die Auskunft	information	Können Sie mir eine Auskunft geben?	Can you give me some information?	1	1
 ja	yes	Sind Sie Herr Watanabe? - Ja.	Are you Mr Watanabe? - Yes.	0	0
 gestern	yesterday	Gestern war ich krank.	Yesterday I was ill.	1	0
 die Ecke	corner	An der nächsten Ecke links.	Left at the next corner.	1	0
-ankreuzen	to mark with a cross / tick	Auf dem Formular müssen Sie etwas ankreuzen.	On the form you have to tick something.	1	0
+ankreuzen	to mark with a cross / tick	Auf dem Formular müssen Sie etwas ankreuzen.	On the form you have to tick something.	1	1
 normal	normal	Sein Gewicht ist normal.	His weight is normal.	1	0
 anklicken	to click (on)	Da musst du dieses Wort anklicken.	You have to click on this word there.	1	0
 der Chef	boss	Wir haben eine neue Chefin.	We have a new boss.	1	0
-vielleicht	maybe / perhaps	Ich komme vielleicht mit dem Bus.	Maybe I'll come by bus.	1	0
+vielleicht	maybe / perhaps	Ich komme vielleicht mit dem Bus.	Maybe I'll come by bus.	1	1
 die Bäckerei	bakery	Ich geh mal schnell zur Bäckerei.	I'll just pop to the bakery.	1	0
 besser	better	Es geht mir schon besser.	I'm feeling better already.	1	0
-der Glückwunsch	congratulation	Herzlichen Glückwunsch zum Geburtstag.	Happy birthday / congratulations.	1	0
+der Glückwunsch	congratulation	Herzlichen Glückwunsch zum Geburtstag.	Happy birthday / congratulations.	1	1
 unter	under / among	Unter uns wohnt eine Familie mit drei Kindern.	Below us lives a family with three children.	1	0
 meist-	most	Die meisten Norddeutschen sind sehr groß.	Most northern Germans are very tall.	1	0
 aus	from / out of / off	Er kommt aus Brasilien.	He comes from Brazil.	1	0
@@ -175,27 +175,27 @@ die Stadt	city / town	Heidelberg ist eine alte Stadt.	Heidelberg is an old city.
 geben	to give	Kannst du mir deinen Kugelschreiber geben?	Can you give me your pen?	1	0
 wann	when	Wann bist du fertig?	When are you ready?	1	0
 regnen	to rain	Heute regnet es.	It's raining today.	1	0
-der Laden	shop / store	Im Buchladen können Sie Bücher kaufen.	In the bookshop you can buy books.	1	0
+der Laden	shop / store	Im Buchladen können Sie Bücher kaufen.	In the bookshop you can buy books.	1	1
 dies-	this	Ich nehme lieber diesen Kuchen.	I'd rather have this cake.	1	0
 die Disco	disco / club	Heute Abend gehen wir in die Disco tanzen.	Tonight we're going dancing at the club.	1	0
-der Abflug	departure (flight)	Der Abflug ist um 11.20 Uhr.	The departure is at 11:20.	1	0
+der Abflug	departure (flight)	Der Abflug ist um 11.20 Uhr.	The departure is at 11:20.	1	1
 der Freund	friend	Das ist ein Freund von mir.	That's a friend of mine.	1	0
 das Gleis	track / platform	Der ICE nach Berlin hält an Gleis 12.	The ICE to Berlin stops at platform 12.	1	0
 das Ende	end	Sie wohnt am Ende der Straße.	She lives at the end of the street.	1	0
 der Kuchen	cake	Ich nehme ein Stück Kuchen.	I'll have a piece of cake.	1	0
-das Lied	song	Welches ist dein Lieblingslied?	Which is your favourite song?	1	0
+das Lied	song	Welches ist dein Lieblingslied?	Which is your favourite song?	1	1
 das Formular	form	Sie müssen dieses Formular ausfüllen.	You have to fill in this form.	1	0
-schon	already	Ist das Essen schon fertig?	Is the food ready already?	1	0
-der Ausweis	ID card	Hier ist mein Ausweis.	Here is my ID.	1	0
-der Unterricht	lessons / class	Wir haben Unterricht von 8 bis 12 Uhr.	We have class from 8 am to 12 pm.	1	0
+schon	already	Ist das Essen schon fertig?	Is the food ready already?	1	1
+der Ausweis	ID card	Hier ist mein Ausweis.	Here is my ID.	1	1
+der Unterricht	lessons / class	Wir haben Unterricht von 8 bis 12 Uhr.	We have class from 8 am to 12 pm.	1	1
 heute	today	Heute ist ein schöner Tag.	Today is a nice day.	1	0
 weiblich	female	"Kreuzen Sie an: ""weiblich"" oder ""männlich""."	"Tick: ""female"" or ""male""."	1	0
-abgeben	to hand in / hand over	Ich muss meine Schlüssel abgeben.	I have to hand in my keys.	1	0
-das Studium	studies	Das Studium beginnt im Oktober.	The studies begin in October.	1	0
+abgeben	to hand in / hand over	Ich muss meine Schlüssel abgeben.	I have to hand in my keys.	1	1
+das Studium	studies	Das Studium beginnt im Oktober.	The studies begin in October.	1	1
 hallo	hello / hi	Hallo Inge! Wie geht's?	Hi Inge! How are you?	0	0
 die Antwort	answer	Er gibt leider keine Antwort.	Unfortunately he gives no answer.	1	0
-studieren	to study (at university)	Ich studiere in Mainz.	I study in Mainz.	1	0
-der Kugelschreiber	(ballpoint) pen	Hast du einen Kugelschreiber für mich?	Do you have a pen for me?	1	0
+studieren	to study (at university)	Ich studiere in Mainz.	I study in Mainz.	1	1
+der Kugelschreiber	(ballpoint) pen	Hast du einen Kugelschreiber für mich?	Do you have a pen for me?	1	1
 das Lokal	pub / restaurant	In unserer Straße gibt es ein neues Lokal.	There's a new pub in our street.	1	0
 das Ticket	ticket	Wie viel kostet das Ticket?	How much does the ticket cost?	1	0
 die Information	information	Wenn Sie Fragen haben, gehen Sie zur Information.	If you have questions, go to the information desk.	0	0
