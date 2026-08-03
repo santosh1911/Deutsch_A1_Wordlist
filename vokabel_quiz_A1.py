@@ -653,9 +653,18 @@ class VokabelQuiz(tk.Tk):
         else:
             self.freq_lbl.config(text="")
         self.feedback_lbl.config(text="", fg="#555")
-        self.progress_lbl.config(
-            text=f"Word {self.pos + 1} / {len(self.order)}"
-        )
+
+        # Position within the current practice set. When a filter such as
+        # "Marked" is active, also show the word's real serial number in the
+        # full list, e.g.  "Word 1 / 128     (#542 of 800)".
+        serial = self.order[self.pos] + 1          # 1-based index into self.entries
+        if self.practice_mode == "all":
+            progress = f"Word {self.pos + 1} / {len(self.order)}"
+        else:
+            progress = (f"Word {self.pos + 1} / {len(self.order)}"
+                        f"     (#{serial} of {len(self.entries)})")
+        self.progress_lbl.config(text=progress)
+
         self.prev_btn.config(state="normal" if self.pos > 0 else "disabled")
         self.back10_btn.config(state="normal" if self.pos > 0 else "disabled")
         self.skip10_btn.config(
