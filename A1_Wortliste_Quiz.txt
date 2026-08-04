@@ -200,105 +200,105 @@ das Lokal	pub / restaurant	In unserer Straße gibt es ein neues Lokal.	There's a
 das Ticket	ticket	Wie viel kostet das Ticket?	How much does the ticket cost?	1	0
 die Information	information	Wenn Sie Fragen haben, gehen Sie zur Information.	If you have questions, go to the information desk.	0	0
 der Kollege	colleague	Wie heißt die neue Kollegin?	What's the new colleague's name?	0	0
-ab	from / starting from	Ab morgen muss ich arbeiten.	From tomorrow I have to work.	0	0
-das Telefon	telephone	Haben Sie Telefon?	Do you have a telephone?	0	0
+ab	from / starting from	Ab morgen muss ich arbeiten.	From tomorrow I have to work.	0	1
+das Telefon	telephone	Haben Sie Telefon?	Do you have a telephone?	0	1
 bitte	please / you're welcome	Eine Tasse Kaffee, bitte!	A cup of coffee, please!	0	0
-abfahren	to depart / leave	Wir fahren um zwölf Uhr ab.	We leave at twelve o'clock.	0	0
+abfahren	to depart / leave	Wir fahren um zwölf Uhr ab.	We leave at twelve o'clock.	0	1
 mit	with / by	Trinken Sie den Kaffee mit Milch?	Do you take your coffee with milk?	0	0
-der Empfänger	recipient / addressee	Auf dem Brief steht dein Name, also bist du der Empfänger.	Your name is on the letter, so you're the recipient.	0	0
+der Empfänger	recipient / addressee	Auf dem Brief steht dein Name, also bist du der Empfänger.	Your name is on the letter, so you're the recipient.	0	1
 die Mitte	middle / centre	Der Lehrer steht in der Mitte des Klassenzimmers.	The teacher stands in the middle of the classroom.	0	0
-werden	to become / will	Mein Sohn will Arzt werden.	My son wants to become a doctor.	0	0
-dort	there	Dort ist unser Haus.	There is our house.	0	0
-benutzen	to use	Die Aufzüge bitte nicht benutzen!	Please do not use the lifts!	0	0
+werden	to become / will	Mein Sohn will Arzt werden.	My son wants to become a doctor.	0	1
+dort	there	Dort ist unser Haus.	There is our house.	0	1
+benutzen	to use	Die Aufzüge bitte nicht benutzen!	Please do not use the lifts!	0	1
 die Klasse	class	In unserer Klasse sind fünfundzwanzig Schüler.	There are twenty-five pupils in our class.	0	0
-der Bauch	belly / stomach	Seit gestern tut mir der Bauch weh.	My stomach has hurt since yesterday.	0	0
+der Bauch	belly / stomach	Seit gestern tut mir der Bauch weh.	My stomach has hurt since yesterday.	0	1
 woher	where from	Woher kommen Sie?	Where do you come from?	0	0
 der Vorname	first name	Ich heiße Müller, mein Vorname ist Eva.	My name is Müller, my first name is Eva.	0	0
-die Vorsicht	caution / care	Vorsicht! Da kommt ein Auto.	Careful! There's a car coming.	0	0
+die Vorsicht	caution / care	Vorsicht! Da kommt ein Auto.	Careful! There's a car coming.	0	1
 der Opa	grandpa	Mein Opa heißt Hans.	My grandpa is called Hans.	0	0
 die Jacke	jacket	Zieh dir eine Jacke an. Es ist kalt.	Put on a jacket. It's cold.	0	0
 der Bus	bus	Wann kommt der nächste Bus?	When does the next bus come?	0	0
 die S-Bahn	city train / S-Bahn	Ich nehme lieber die S-Bahn.	I'd rather take the S-Bahn.	0	0
-die Geschwister	siblings	Ich habe leider keine Geschwister.	Unfortunately I have no siblings.	0	0
+die Geschwister	siblings	Ich habe leider keine Geschwister.	Unfortunately I have no siblings.	0	1
 bringen	to bring	Bringen Sie mir bitte noch einen Kaffee!	Please bring me another coffee!	0	0
-ruhig	quiet / calm	Ich möchte ein ruhiges Zimmer.	I'd like a quiet room.	0	0
+ruhig	quiet / calm	Ich möchte ein ruhiges Zimmer.	I'd like a quiet room.	0	1
 der Blick	view / look	Von diesem Hotel hat man einen guten Blick auf den Rhein.	From this hotel you have a good view of the Rhine.	0	0
-das Geschenk	present / gift	Danke für das schöne Geschenk.	Thanks for the lovely present.	0	0
+das Geschenk	present / gift	Danke für das schöne Geschenk.	Thanks for the lovely present.	0	1
 tun	to do	Ich habe noch etwas zu tun.	I still have something to do.	0	0
-zum Beispiel	for example	Viele meiner Verwandten, z. B. meine Brüder, arbeiten hier.	Many of my relatives, e.g. my brothers, work here.	0	0
+zum Beispiel	for example	Viele meiner Verwandten, z. B. meine Brüder, arbeiten hier.	Many of my relatives, e.g. my brothers, work here.	0	1
 ausmachen	to switch off	Mach bitte das Licht aus!	Please turn off the light!	0	0
 der Sohn	son	Das ist Hans, mein Sohn.	This is Hans, my son.	0	0
 die Aufgabe	task / exercise	Das ist eine schwere Aufgabe.	That's a difficult task.	0	0
-die Speisekarte	menu	Bringen Sie mir die Speisekarte, bitte.	Bring me the menu, please.	0	0
+die Speisekarte	menu	Bringen Sie mir die Speisekarte, bitte.	Bring me the menu, please.	0	1
 das Essen	food / meal	Das Essen ist heute sehr gut.	The food is very good today.	0	0
 all-	all / everything	Alles Gute!	All the best!	0	0
 der Mensch	person / human	Die Menschen sind hier anders als bei uns.	The people here are different from us.	0	0
 sich	oneself	Sie müssen sich erst anmelden.	You have to register first.	0	0
 die Hausaufgabe	homework	Kannst du mir bei den Hausaufgaben helfen?	Can you help me with the homework?	0	0
 der Bahnhof	(train) station	Komme ich hier zum Bahnhof?	Will I get to the station this way?	0	0
-zwischen	between	Heidelberg liegt zwischen Frankfurt und Stuttgart.	Heidelberg is between Frankfurt and Stuttgart.	0	0
+zwischen	between	Heidelberg liegt zwischen Frankfurt und Stuttgart.	Heidelberg is between Frankfurt and Stuttgart.	0	1
 die Zigarette	cigarette	Wie teuer sind die Zigaretten?	How expensive are the cigarettes?	0	0
 der Job	job	Jenny hat einen neuen Job bei der Post.	Jenny has a new job at the post office.	0	0
-das Geschäft	shop / business	Die Geschäfte schließen um 18.30 Uhr.	The shops close at 6:30 pm.	0	0
+das Geschäft	shop / business	Die Geschäfte schließen um 18.30 Uhr.	The shops close at 6:30 pm.	0	1
 das Bier	beer	Noch ein Bier bitte.	Another beer, please.	0	0
 der Tee	tea	Ich trinke morgens immer Tee.	I always drink tea in the morning.	0	0
 arbeiten	to work	Wo arbeiten Sie?	Where do you work?	0	0
-stehen	to stand / be (written)	Der Bus steht schon an der Haltestelle.	The bus is already at the stop.	0	0
-wissen	to know (a fact)	Weißt du, wie er heißt?	Do you know what his name is?	0	0
-der Schinken	ham	Ich möchte gern ein Schinkenbrot.	I'd like a ham sandwich.	0	0
-kennen	to know (be familiar with)	Kennen Sie diese Frau?	Do you know this woman?	0	0
+stehen	to stand / be (written)	Der Bus steht schon an der Haltestelle.	The bus is already at the stop.	0	1
+wissen	to know (a fact)	Weißt du, wie er heißt?	Do you know what his name is?	0	1
+der Schinken	ham	Ich möchte gern ein Schinkenbrot.	I'd like a ham sandwich.	0	1
+kennen	to know (be familiar with)	Kennen Sie diese Frau?	Do you know this woman?	0	1
 der Anfang	beginning	Sie wohnt am Anfang der Straße.	She lives at the beginning of the street.	0	0
 das Geburtsjahr	year of birth	Das Geburtsjahr Ihres Sohnes, bitte?	Your son's year of birth, please?	0	0
 der Kindergarten	kindergarten	Die kleine Laura geht schon in den Kindergarten.	Little Laura already goes to kindergarten.	0	0
-die Briefmarke	stamp	Kaufst du bitte Briefmarken bei der Post.	Please buy stamps at the post office.	0	0
-langsam	slow(ly)	Könnten Sie bitte etwas langsamer sprechen?	Could you please speak a little more slowly?	0	0
-der Geburtsort	place of birth	Bitte schreiben Sie Ihren Geburtsort auf das Formular.	Please write your place of birth on the form.	0	0
-lieber	rather / prefer	Sie fährt lieber mit der Bahn.	She prefers to travel by train.	0	0
-zufrieden	satisfied / content	Ich bin mit der Wohnung zufrieden.	I'm satisfied with the flat.	0	0
-einfach	simple / single	Die Prüfung ist ganz einfach.	The exam is quite easy.	0	0
+die Briefmarke	stamp	Kaufst du bitte Briefmarken bei der Post.	Please buy stamps at the post office.	0	1
+langsam	slow(ly)	Könnten Sie bitte etwas langsamer sprechen?	Could you please speak a little more slowly?	0	1
+der Geburtsort	place of birth	Bitte schreiben Sie Ihren Geburtsort auf das Formular.	Please write your place of birth on the form.	0	1
+lieber	rather / prefer	Sie fährt lieber mit der Bahn.	She prefers to travel by train.	0	1
+zufrieden	satisfied / content	Ich bin mit der Wohnung zufrieden.	I'm satisfied with the flat.	0	1
+einfach	simple / single	Die Prüfung ist ganz einfach.	The exam is quite easy.	0	1
 (sich) waschen	to wash	Wo kann ich mir die Hände waschen?	Where can I wash my hands?	0	0
-Feier-	celebration / holiday (prefix)	Am Montag ist Feiertag.	Monday is a public holiday.	0	0
-abfliegen	to take off / depart (flight)	Wann fliegst du ab?	When do you fly off?	0	0
+Feier-	celebration / holiday (prefix)	Am Montag ist Feiertag.	Monday is a public holiday.	0	1
+abfliegen	to take off / depart (flight)	Wann fliegst du ab?	When do you fly off?	0	1
 der Urlaub	holiday / vacation	Ich nehme im September Urlaub.	I'm taking holiday in September.	0	0
-herzlich	warm / cordial	Herzlichen Glückwunsch!	Warm congratulations!	0	0
+herzlich	warm / cordial	Herzlichen Glückwunsch!	Warm congratulations!	0	1
 der Garten	garden	Wir haben leider keinen Garten.	Unfortunately we don't have a garden.	0	0
-durch	through	Am besten gehen Sie durch die Breite Straße.	It's best to go through Breite Straße.	0	0
+durch	through	Am besten gehen Sie durch die Breite Straße.	It's best to go through Breite Straße.	0	1
 viel	much / a lot	Hier regnet es viel.	It rains a lot here.	0	0
 (sich) treffen	to meet	Wir treffen uns immer freitags.	We always meet on Fridays.	0	0
-(sich) anmelden	to register / sign up	Wo kann ich mich anmelden?	Where can I register?	0	0
-aufhören	to stop / end	Der Kurs hört in einer Woche auf.	The course ends in a week.	0	0
-zu sein	to be closed	Die Tür ist zu.	The door is closed.	0	0
-der Beamte	official / civil servant	Fragen Sie die Beamtin an Schalter acht!	Ask the official at counter eight!	0	0
+(sich) anmelden	to register / sign up	Wo kann ich mich anmelden?	Where can I register?	0	1
+aufhören	to stop / end	Der Kurs hört in einer Woche auf.	The course ends in a week.	0	1
+zu sein	to be closed	Die Tür ist zu.	The door is closed.	0	1
+der Beamte	official / civil servant	Fragen Sie die Beamtin an Schalter acht!	Ask the official at counter eight!	0	1
 die Schwester	sister	Meine Schwester kommt am Dienstag.	My sister is coming on Tuesday.	0	0
-umziehen	to move (house)	Nächsten Monat ziehen wir um.	Next month we're moving.	0	0
+umziehen	to move (house)	Nächsten Monat ziehen wir um.	Next month we're moving.	0	1
 welch-	which	Welches Buch möchtest du?	Which book would you like?	0	0
 mehr	more	Dieses Auto kostet 1.000 Euro mehr als das andere.	This car costs 1,000 euros more than the other one.	0	0
-anrufen	to call / phone	Kann man Sie anrufen?	Can one call you?	0	0
+anrufen	to call / phone	Kann man Sie anrufen?	Can one call you?	0	1
 ohne	without	Ohne Geld kann er nichts kaufen.	Without money he can't buy anything.	0	0
 das Leben	life	Das Leben in diesem Land ist teuer.	Life in this country is expensive.	0	0
-laut	loud	Nicht so laut! Das Baby schläft.	Not so loud! The baby is sleeping.	0	0
+laut	loud	Nicht so laut! Das Baby schläft.	Not so loud! The baby is sleeping.	0	1
 die Stunde	hour / lesson	Ich bin in einer Stunde zurück.	I'll be back in an hour.	0	0
-heiraten	to marry	Meine Schwester heiratet einen Japaner.	My sister is marrying a Japanese man.	0	0
-ihr / ihm / ihn	her / him	Gib ihr / ihm bitte das Buch.	Please give her / him the book.	0	0
+heiraten	to marry	Meine Schwester heiratet einen Japaner.	My sister is marrying a Japanese man.	0	1
+ihr / ihm / ihn	her / him	Gib ihr / ihm bitte das Buch.	Please give her / him the book.	0	1
 die Stelle	position / place / job	Ich habe eine neue Stelle.	I have a new job.	0	0
-mögen	to like	Magst du Kaffee oder Tee?	Do you like coffee or tea?	0	0
-holen	to fetch / get	Ich hole zwei Flaschen Wasser aus der Küche.	I'll get two bottles of water from the kitchen.	0	0
-die Leute	people	In der Disko sind viele Leute.	There are many people at the club.	0	0
+mögen	to like	Magst du Kaffee oder Tee?	Do you like coffee or tea?	0	1
+holen	to fetch / get	Ich hole zwei Flaschen Wasser aus der Küche.	I'll get two bottles of water from the kitchen.	0	1
+die Leute	people	In der Disko sind viele Leute.	There are many people at the club.	0	1
 die Fahrkarte	ticket	Hast du schon eine Fahrkarte?	Do you already have a ticket?	0	0
-ausländisch	foreign	Leider habe ich nur ausländisches Geld.	Unfortunately I only have foreign money.	0	0
+ausländisch	foreign	Leider habe ich nur ausländisches Geld.	Unfortunately I only have foreign money.	0	1
 dann	then	Ich muss noch zur Post, dann komme ich.	I still have to go to the post office, then I'll come.	0	0
-mitbringen	to bring along	Soll ich dir was mitbringen?	Shall I bring you something?	0	0
+mitbringen	to bring along	Soll ich dir was mitbringen?	Shall I bring you something?	0	1
 das Fahrrad	bicycle	Fährst du mit dem Fahrrad oder mit dem Auto?	Are you going by bike or by car?	0	0
-mitkommen	to come along	Ich gehe ins Kino. Kommst du mit?	I'm going to the cinema. Are you coming along?	0	0
-auch	also / too	Ich bin auch Spanier.	I'm Spanish too.	0	0
+mitkommen	to come along	Ich gehe ins Kino. Kommst du mit?	I'm going to the cinema. Are you coming along?	0	1
+auch	also / too	Ich bin auch Spanier.	I'm Spanish too.	0	1
 neu	new	Ich bin der neue Kollege.	I'm the new colleague.	0	0
-der/die Bekannte	acquaintance	Ein Bekannter von mir heißt Klaus.	An acquaintance of mine is called Klaus.	0	0
-ein-	a / one	Ich nehme ein Bier. Willst du auch eins?	I'll have a beer. Do you want one too?	0	0
-oben	up / above / upstairs	Ich wohne oben.	I live upstairs.	0	0
+der/die Bekannte	acquaintance	Ein Bekannter von mir heißt Klaus.	An acquaintance of mine is called Klaus.	0	1
+ein-	a / one	Ich nehme ein Bier. Willst du auch eins?	I'll have a beer. Do you want one too?	0	1
+oben	up / above / upstairs	Ich wohne oben.	I live upstairs.	0	1
 das Salz	salt	Kann ich bitte Salz haben?	Can I have some salt, please?	0	0
-(sich) ausziehen	to take off / get undressed	Zieh die Schuhe aus, bitte!	Take off your shoes, please!	0	0
+(sich) ausziehen	to take off / get undressed	Zieh die Schuhe aus, bitte!	Take off your shoes, please!	0	1
 verstehen	to understand	Können Sie mich verstehen?	Can you understand me?	0	0
-Achtung	attention / watch out	Achtung! Das dürfen Sie nicht tun.	Attention! You must not do that.	0	0
+Achtung	attention / watch out	Achtung! Das dürfen Sie nicht tun.	Attention! You must not do that.	0	1
 verboten	forbidden	Hier ist Rauchen verboten.	Smoking is forbidden here.	0	0
 richtig	correct / right	Das ist richtig.	That's correct.	0	0
 der Beruf	job / profession	Was sind Sie von Beruf?	What is your profession?	0	0
